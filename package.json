@@ -8,6 +8,7 @@
     "concurrently": "^5.3.0",
     "config": "^3.3.3",
     "express": "^4.17.1",
+    "express-validator": "^6.12.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.15",
     "nodemon": "^2.0.6",
