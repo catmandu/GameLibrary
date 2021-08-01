@@ -11,18 +11,30 @@ ConnectDB();
 
 const config = require('config');
 
-/* #region Routes */
-api.use(`/${config.get('apiBaseUrl')}authentication`, require('./routes/authentication'));
-api.use(`/${config.get('apiBaseUrl')}users`, require('./routes/users'));
-api.use(`/${config.get('apiBaseUrl')}games`, require('./routes/games'));
-api.use(`/${config.get('apiBaseUrl')}genres`, require('./routes/genres'));
-api.use(`/${config.get('apiBaseUrl')}platforms`, require('./routes/platforms'));
-api.use(`/${config.get('apiBaseUrl')}publishers`, require('./routes/publishers'));
-api.use(`/${config.get('apiBaseUrl')}developers`, require('./routes/developers'));
+/* #region Controllers */
+api.use(`/${config.get('apiBaseUrl')}users`, require('./controllers/users'));
+api.use(`/${config.get('apiBaseUrl')}games`, require('./controllers/games'));
+api.use(`/${config.get('apiBaseUrl')}genres`, require('./controllers/genres'));
+api.use(
+  `/${config.get('apiBaseUrl')}platforms`,
+  require('./controllers/platforms')
+);
+
+api.use(
+  `/${config.get('apiBaseUrl')}publishers`,
+  require('./controllers/publishers')
+);
+
+api.use(
+  `/${config.get('apiBaseUrl')}developers`,
+  require('./controllers/developers')
+);
 /* #endregion */
 
 // default home request
-api.get('/', (req, res) => res.json({ message: `hello ${req.query.name || 'world'}!` }) );
+api.get('/', (req, res) =>
+  res.json({ message: `hello ${req.query.name || 'world'}!` })
+);
 
 // initialization
 api.listen(port, () => console.log(`server listening at ${port}`));
