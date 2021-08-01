@@ -1,38 +1,35 @@
-const utils = require('../shared/utils');
-const developerRepository = require('../repositories/developer');
-const sortingHelper = require('../helpers/sortingHelper');
-const pagingHelper = require('../helpers/pagingHelper');
+const { CreateId } = require('../shared/utils');
+const repo = require('../repositories/developer');
+const { SortByValue } = require('../helpers/sortingHelper');
+const { ApplyPaging } = require('../helpers/pagingHelper');
 
-const GetDevelopers = async (query, paging) => 
-{
-  const developers = await developerRepository.GetDevelopers(query);
+const GetDevelopers = async (query, paging) => {
+  const developers = await repo.GetDevelopers(query);
 
-  return pagingHelper.ApplyPaging(
-    sortingHelper.SortByValue(developers),
-    paging
-  );
+  return ApplyPaging(SortByValue(developers), paging);
 };
 
-const CreateDeveloper = async newDeveloper => await developerRepository.CreateDeveloper({ _id: utils.CreateId(), ...newDeveloper });
+const CreateDeveloper = async newDeveloper =>
+  await repo.CreateDeveloper({ _id: CreateId(), ...newDeveloper });
 
-const UpdateDeveloper = async (developerId, updatedDeveloper) => 
-{  
-  await developerRepository.UpdateDeveloper({ _id: developerId }, updatedDeveloper);
-  
+const UpdateDeveloper = async (developerId, updatedDeveloper) => {
+  await repo.UpdateDeveloper({ _id: developerId }, updatedDeveloper);
+
   return await _GetSingleDeveloper(developerId);
 };
 
-const DeleteDeveloper = async developerId => await developerRepository.DeleteDeveloper({ _id: developerId });
+const DeleteDeveloper = async developerId =>
+  await repo.DeleteDeveloper({ _id: developerId });
 
-const CountDevelopers = async () => await developerRepository.CountDevelopers();
+const CountDevelopers = async () => await repo.CountDevelopers();
 
-const _GetSingleDeveloper = async id => await developerRepository.GetSingleDeveloper({_id: id});
+const _GetSingleDeveloper = async id =>
+  await repo.GetSingleDeveloper({ _id: id });
 
-module.exports =
-{
-    GetDevelopers,
-    CreateDeveloper,
-    UpdateDeveloper,
-    DeleteDeveloper,
-    CountDevelopers
+module.exports = {
+  GetDevelopers,
+  CreateDeveloper,
+  UpdateDeveloper,
+  DeleteDeveloper,
+  CountDevelopers
 };

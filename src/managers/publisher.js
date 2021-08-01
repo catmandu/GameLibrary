@@ -1,38 +1,35 @@
-const utils = require('../shared/utils');
-const publisherRepository = require('../repositories/publisher');
-const sortingHelper = require('../helpers/sortingHelper');
-const pagingHelper = require('../helpers/pagingHelper');
+const { CreateId } = require('../shared/utils');
+const repo = require('../repositories/publisher');
+const { SortByValue } = require('../helpers/sortingHelper');
+const { ApplyPaging } = require('../helpers/pagingHelper');
 
-const GetPublishers = async (query, paging) =>
-{
-    const publishers = await publisherRepository.GetPublishers(query);
+const GetPublishers = async (query, paging) => {
+  const publishers = await repo.GetPublishers(query);
 
-    return pagingHelper.ApplyPaging(
-        sortingHelper.SortByValue(publishers),
-        paging
-    );
-};    
-
-const CreatePublisher = async newPublisher => await publisherRepository.CreatePublisher({ _id: utils.CreateId(), ...newPublisher });
-
-const UpdatePublisher = async (publisherId, updatedPublisher) => 
-{
-    await publisherRepository.UpdatePublisher({ _id: publisherId }, updatedPublisher);
-
-    return await _GetSinglePublisher(publisherId);
+  return ApplyPaging(SortByValue(publishers), paging);
 };
 
-const DeletePublisher = async publisherId => await publisherRepository.DeletePublisher({ _id: publisherId });
+const CreatePublisher = async newPublisher =>
+  await repo.CreatePublisher({ _id: CreateId(), ...newPublisher });
 
-const CountPublishers = async () => await publisherRepository.CountPublishers();
+const UpdatePublisher = async (publisherId, updatedPublisher) => {
+  await repo.UpdatePublisher({ _id: publisherId }, updatedPublisher);
 
-const _GetSinglePublisher = async id => await publisherRepository.GetSinglePublisher({_id: id});
+  return await _GetSinglePublisher(publisherId);
+};
 
-module.exports =
-{
-    GetPublishers,
-    CreatePublisher,
-    UpdatePublisher,
-    DeletePublisher,
-    CountPublishers
+const DeletePublisher = async publisherId =>
+  await repo.DeletePublisher({ _id: publisherId });
+
+const CountPublishers = async () => await repo.CountPublishers();
+
+const _GetSinglePublisher = async id =>
+  await repo.GetSinglePublisher({ _id: id });
+
+module.exports = {
+  GetPublishers,
+  CreatePublisher,
+  UpdatePublisher,
+  DeletePublisher,
+  CountPublishers
 };

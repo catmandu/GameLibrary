@@ -1,19 +1,15 @@
-const jwt = require('jsonwebtoken');
-const config = require('config');
+const { sign, verify } = require('jsonwebtoken');
+const { jwtSecret } = require('config');
 
-const CreateToken = (payload) =>{
-    return jwt.sign(
-        payload,
-        config.get('jwtSecret'),
-        {
-          expiresIn: '1h'
-        }          
-      );
+const CreateToken = payload => {
+  return sign(payload, jwtSecret, {
+    expiresIn: '1h'
+  });
 };
 
-const VerifyToken = token => jwt.verify(token, config.get('jwtSecret'));
+const VerifyToken = token => verify(token, jwtSecret);
 
 module.exports = {
-    CreateToken,
-    VerifyToken
+  CreateToken,
+  VerifyToken
 };

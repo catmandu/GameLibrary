@@ -1,5 +1,4 @@
-const ApplyPaging = (list, paging) =>
-{
+const ApplyPaging = (list, paging) => {
   const pageSize = paging.pageSize || list.length;
   const pageNumber = paging.pageNumber || 1;
 
@@ -9,8 +8,6 @@ const ApplyPaging = (list, paging) =>
   };
 };
 
-module.exports = 
-{
-    ApplyPaging
+module.exports = {
+  ApplyPaging
 };
-

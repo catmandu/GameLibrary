@@ -1,80 +1,72 @@
-const utils = require('../shared/utils');
-const gameRepository = require('../repositories/game');
-const dataShapeHelper = require('../helpers/dataShapeHelper');
-const sortingHelper = require('../helpers/sortingHelper');
-const pagingHelper = require('../helpers/pagingHelper');
+const {
+  IsEmptyString,
+  IsEmptyArray,
+  CreateId,
+  IsEmptyObject
+} = require('../shared/utils');
+const repo = require('../repositories/game');
+const { ShapeSingleObject } = require('../helpers/dataShapeHelper');
+const { SortByValue } = require('../helpers/sortingHelper');
+const { ApplyPaging } = require('../helpers/pagingHelper');
 
-const GetGamesForUi = async (query, paging) =>
-{
-    const { shapeData, id, ...dbQuery } = query;
+const GetGamesForUi = async (query, paging) => {
+  const { shapeData, id, ...dbQuery } = query;
 
-    if(!utils.IsEmptyString(id))
-    {
-        return {
-            currentPage: await _GetSingleGameForUi(query),
-            totalPages: 1
-        };
-    }
+  if (!IsEmptyString(id)) {
+    return {
+      currentPage: await _GetSingleGameForUi(query),
+      totalPages: 1
+    };
+  }
 
-    const games = [];
-    const dbGames = await _GetGames(dbQuery);
+  const games = [];
+  const dbGames = await _GetGames(dbQuery);
 
-    if(!utils.IsEmptyArray(dbGames))
-    {
-        dbGames.forEach(dbGame =>
-        {
-            games.push(
-                dataShapeHelper.ShapeSingleObject(shapeData, dbGame)
-            );
-        });
-    }
+  if (!IsEmptyArray(dbGames)) {
+    dbGames.forEach(dbGame => {
+      games.push(ShapeSingleObject(shapeData, dbGame));
+    });
+  }
 
-    return pagingHelper.ApplyPaging(
-        sortingHelper.SortByValue(games),
-        paging
-    );
+  return ApplyPaging(SortByValue(games), paging);
 };
 
-const CreateGame = async newGame =>
-{
-    const newInfo = await gameRepository.CreateGame({ _id: utils.CreateId(), ...newGame });
+const CreateGame = async newGame => {
+  const newInfo = await repo.CreateGame({ _id: CreateId(), ...newGame });
 
-    return newInfo;
+  return newInfo;
 };
 
-const UpdateGame = async (gameId, updatedGame) =>
-{
-    await gameRepository.UpdateGame({ _id: gameId }, updatedGame);
-    
-    return await _GetSingleGame(gameId);
+const UpdateGame = async (gameId, updatedGame) => {
+  await repo.UpdateGame({ _id: gameId }, updatedGame);
+
+  return await _GetSingleGame(gameId);
 };
 
-const DeleteGame = async gameId => await gameRepository.DeleteGame({ _id: gameId });
+const DeleteGame = async gameId => await repo.DeleteGame({ _id: gameId });
 
-const CountGames = async () => await gameRepository.CountGames();
+const CountGames = async () => await repo.CountGames();
 
-const _GetGames = async query => await gameRepository.GetGames(query);
+const _GetGames = async query => await repo.GetGames(query);
 
-const _GetSingleGame = async gameId => await gameRepository.GetSingleGame({_id: gameId});
+const _GetSingleGame = async gameId =>
+  await repo.GetSingleGame({ _id: gameId });
 
-const _GetSingleGameForUi = async query =>
-{
-    const { shapeData, id } = query;
-    const dbGame = await _GetSingleGame(id);
+const _GetSingleGameForUi = async query => {
+  const { shapeData, id } = query;
+  const dbGame = await _GetSingleGame(id);
 
-    if(!utils.IsEmptyObject(dbGame))
-    {
-        return dataShapeHelper.ShapeSingleObject(shapeData, dbGame);
-    }
+  if (!IsEmptyObject(dbGame)) {
+    return ShapeSingleObject(shapeData, dbGame);
+  }
 
-    return dbGame;
+  return dbGame;
 };
 
-module.exports = 
-{
-    GetGamesForUi,
-    CreateGame,
-    UpdateGame,
-    DeleteGame,
-    CountGames
+module.exports = {
+  GetGamesForUi,
+  CreateGame,
+  UpdateGame,
+  DeleteGame,
+  CountGames
 };
