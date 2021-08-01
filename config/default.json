@@ -1,0 +1,5 @@
+{
+    "apiBaseUrl": "gamelibrary/api/",
+    "jwtSecret": "d0053682603170dfa28783feec1e1d2f908dee9cb0c66ec49289ff892460237a",
+    "mongoUri": "mongodb+srv://fullUser:csNk3hRuHxKKNsr@gamelibrarycluster.hhnad.mongodb.net/GameLibraryDB?retryWrites=true&w=majority"
+}
