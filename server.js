@@ -1,9 +1,13 @@
 const express = require('express');
 const api = express();
 const port = process.env.PORT || 5000;
+const env = process.env.NODE_ENV || 'development';
 const body_parser = require('body-parser');
+const cookieParser = require('cookie-parser');
 // parse JSON (apilication/json content-type)
 api.use(body_parser.json());
+
+api.use(cookieParser());
 
 //Connect to database
 const ConnectDB = require('./config/db');
@@ -37,4 +41,6 @@ api.get('/', (req, res) =>
 );
 
 // initialization
-api.listen(port, () => console.log(`server listening at ${port}`));
+api.listen(port, () =>
+  console.log(`server running on ${env} environment listening at ${port}`)
+);

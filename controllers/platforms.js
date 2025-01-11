@@ -4,14 +4,16 @@ const {
   CountPlatforms,
   CreatePlatform,
   UpdatePlatform,
-  DeletePlatform
+  DeletePlatform,
 } = require('../src/managers/platform');
 
+const auth = require('../middleware/authentication');
+
 // get all platforms or filter by properties
-controller.get('/', async (req, res) => {
+controller.get('/', auth, async (req, res) => {
   const paging = {
     pageSize: req.header('Page-Size'),
-    pageNumber: req.header('Page-Number')
+    pageNumber: req.header('Page-Number'),
   };
 
   const response = await GetPlatforms(req.query, paging);
@@ -21,19 +23,19 @@ controller.get('/', async (req, res) => {
 });
 
 // count all platforms in DB
-controller.get('/count', async (req, res) => {
+controller.get('/count', auth, async (req, res) => {
   res.json(await CountPlatforms());
 });
 
 // add new platform
-controller.post('/', async (req, res) => {
+controller.post('/', auth, async (req, res) => {
   const platform = req.body;
 
   res.json(await CreatePlatform(platform));
 });
 
 // update platform by id
-controller.put('/:id', async (req, res) => {
+controller.put('/:id', auth, async (req, res) => {
   const platformId = req.params.id;
   const updatedPlatform = req.body;
 
@@ -41,7 +43,7 @@ controller.put('/:id', async (req, res) => {
 });
 
 // delete platform by id
-controller.delete('/:id', async (req, res) => {
+controller.delete('/:id', auth, async (req, res) => {
   const platformId = req.params.id;
 
   res.json(await DeletePlatform(platformId));

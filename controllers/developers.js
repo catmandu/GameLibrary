@@ -4,7 +4,7 @@ const {
   CountDevelopers,
   CreateDeveloper,
   UpdateDeveloper,
-  DeleteDeveloper
+  DeleteDeveloper,
 } = require('../src/managers/developer');
 const auth = require('../middleware/authentication');
 
@@ -12,7 +12,7 @@ const auth = require('../middleware/authentication');
 controller.get('/', auth, async (req, res) => {
   const paging = {
     pageSize: req.header('Page-Size'),
-    pageNumber: req.header('Page-Number')
+    pageNumber: req.header('Page-Number'),
   };
 
   const response = await GetDevelopers(req.query, paging);
@@ -22,19 +22,19 @@ controller.get('/', auth, async (req, res) => {
 });
 
 // count all developers in DB
-controller.get('/count', async (req, res) => {
+controller.get('/count', auth, async (req, res) => {
   res.json(await CountDevelopers());
 });
 
 // add new developer
-controller.post('/', async (req, res) => {
+controller.post('/', auth, async (req, res) => {
   const developer = req.body;
 
   res.json(await CreateDeveloper(developer));
 });
 
 // update developer by id
-controller.put('/:id', async (req, res) => {
+controller.put('/:id', auth, async (req, res) => {
   const developerId = req.params.id;
   const updatedDeveloper = req.body;
 
@@ -42,7 +42,7 @@ controller.put('/:id', async (req, res) => {
 });
 
 // delete developer by id
-controller.delete('/:id', async (req, res) => {
+controller.delete('/:id', auth, async (req, res) => {
   const developerId = req.params.id;
 
   res.json(await DeleteDeveloper(developerId));

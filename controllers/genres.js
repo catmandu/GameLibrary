@@ -4,14 +4,16 @@ const {
   CountGenres,
   CreateGenre,
   UpdateGenre,
-  DeleteGenre
+  DeleteGenre,
 } = require('../src/managers/genre');
 
+const auth = require('../middleware/authentication');
+
 // get all genres or filter by properties
-controller.get('/', async (req, res) => {
+controller.get('/', auth, async (req, res) => {
   const paging = {
     pageSize: req.header('Page-Size'),
-    pageNumber: req.header('Page-Number')
+    pageNumber: req.header('Page-Number'),
   };
 
   const response = await GetGenres(req.query, paging);
@@ -21,19 +23,19 @@ controller.get('/', async (req, res) => {
 });
 
 // count all genres in DB
-controller.get('/count', async (req, res) => {
+controller.get('/count', auth, async (req, res) => {
   res.json(await CountGenres());
 });
 
 // add new genre
-controller.post('/', async (req, res) => {
+controller.post('/', auth, async (req, res) => {
   const genre = req.body;
 
   res.json(await CreateGenre(genre));
 });
 
 // update genre by id
-controller.put('/:id', async (req, res) => {
+controller.put('/:id', auth, async (req, res) => {
   const genreId = req.params.id;
   const updatedGenre = req.body;
 
@@ -41,7 +43,7 @@ controller.put('/:id', async (req, res) => {
 });
 
 // delete genre by id
-controller.delete('/:id', async (req, res) => {
+controller.delete('/:id', auth, async (req, res) => {
   const genreId = req.params.id;
 
   res.json(await DeleteGenre(genreId));

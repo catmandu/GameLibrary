@@ -4,14 +4,16 @@ const {
   CountPublishers,
   CreatePublisher,
   UpdatePublisher,
-  DeletePublisher
+  DeletePublisher,
 } = require('../src/managers/publisher');
 
+const auth = require('../middleware/authentication');
+
 // get all publishers or filter by properties
-controller.get('/', async (req, res) => {
+controller.get('/', auth, async (req, res) => {
   const paging = {
     pageSize: req.header('Page-Size'),
-    pageNumber: req.header('Page-Number')
+    pageNumber: req.header('Page-Number'),
   };
 
   const response = await GetPublishers(req.query, paging);
@@ -21,19 +23,19 @@ controller.get('/', async (req, res) => {
 });
 
 // count all publishers in DB
-controller.get('/count', async (req, res) => {
+controller.get('/count', auth, async (req, res) => {
   res.json(await CountPublishers());
 });
 
 // add new publisher
-controller.post('/', async (req, res) => {
+controller.post('/', auth, async (req, res) => {
   const publisher = req.body;
 
   res.json(await CreatePublisher(publisher));
 });
 
 // update publisher by id
-controller.put('/:id', async (req, res) => {
+controller.put('/:id', auth, async (req, res) => {
   const publisherId = req.params.id;
   const updatedPublisher = req.body;
 
@@ -41,7 +43,7 @@ controller.put('/:id', async (req, res) => {
 });
 
 // delete publisher by id
-controller.delete('/:id', async (req, res) => {
+controller.delete('/:id', auth, async (req, res) => {
   const publisherId = req.params.id;
 
   res.json(await DeletePublisher(publisherId));

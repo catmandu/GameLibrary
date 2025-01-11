@@ -4,14 +4,16 @@ const {
   CountGames,
   CreateGame,
   UpdateGame,
-  DeleteGame
+  DeleteGame,
 } = require('../src/managers/game');
 
+const auth = require('../middleware/authentication');
+
 // get all games, filter by properties or get single game by its id
-controller.get('/', async (req, res) => {
+controller.get('/', auth, async (req, res) => {
   const paging = {
     pageSize: req.header('Page-Size'),
-    pageNumber: req.header('Page-Number')
+    pageNumber: req.header('Page-Number'),
   };
 
   const response = await GetGamesForUi(req.query, paging);
@@ -21,19 +23,19 @@ controller.get('/', async (req, res) => {
 });
 
 // count all games in DB
-controller.get('/count', async (req, res) => {
+controller.get('/count', auth, async (req, res) => {
   res.json(await CountGames());
 });
 
 // add new game
-controller.post('/', async (req, res) => {
+controller.post('/', auth, async (req, res) => {
   const game = req.body;
 
   res.json(await CreateGame(game));
 });
 
 // update game by id
-controller.put('/:id', async (req, res) => {
+controller.put('/:id', auth, async (req, res) => {
   const gameId = req.params.id;
   const updatedGame = req.body;
 
@@ -41,7 +43,7 @@ controller.put('/:id', async (req, res) => {
 });
 
 // delete game by id
-controller.delete('/:id', async (req, res) => {
+controller.delete('/:id', auth, async (req, res) => {
   const gameId = req.params.id;
 
   res.json(await DeleteGame(gameId));

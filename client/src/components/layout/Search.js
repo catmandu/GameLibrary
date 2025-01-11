@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const Search = ({Filter, placeholder}) => 
-{
+const Search = ({ Filter, placeholder }) => {
   const [text, SetText] = useState('');
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     Filter(text);
     // eslint-disable-next-line
   }, []);
 
-  const OnChange = e => 
-  {
+  const OnChange = (e) => {
     const { value } = e.target;
 
     Filter(value);
@@ -21,25 +18,19 @@ const Search = ({Filter, placeholder}) =>
 
   return (
     <>
-        <input
-          type='text'
-          name='text'
-          placeholder={`${placeholder}...`}
-          value={text}
-          onChange={OnChange}
-        />
+      <input
+        type='text'
+        name='text'
+        placeholder={`${placeholder}...`}
+        value={text}
+        onChange={OnChange}
+      />
     </>
   );
 };
 
-Search.defaultProps =
-{
-  placeholder:'Filter'
-};
-
-Search.propTypes =
-{
-  Filter: PropTypes.func.isRequired
+Search.propTypes = {
+  Filter: PropTypes.func.isRequired,
 };
 
 export default Search;

@@ -49,14 +49,21 @@ export const SET_CURRENT_PLATFORM = 'SET_CURRENT_PLATFORM';
 export const PLATFORM_ERROR = 'PLATFORM_ERROR';
 /* #endregion */
 
+/*#region User */
+export const LOGIN_USER = 'LOGIN_USER';
+export const LOGOUT_USER = 'LOGOUT_USER';
+export const ADD_USER = 'ADD_USER';
+export const UPDATE_USER = 'UPDATE_USER';
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const GET_USER = 'GET_USER';
+export const USER_ERROR = 'USER_ERROR';
+/* #endregion */
+
 /* #region Shared */
 export const SET_LOADING = 'SET_LOADING';
-
 export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-
 export const SET_CONFIRM = 'SET_CONFIRM';
 export const REMOVE_CONFIRM = 'REMOVE_CONFIRM';
-
 export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';
 /* #endregion */

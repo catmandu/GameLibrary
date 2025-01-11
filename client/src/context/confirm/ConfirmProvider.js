@@ -3,21 +3,20 @@ import ConfirmContext from './confirmContext';
 import ConfirmReducer from './confirmReducer';
 import { SET_CONFIRM, REMOVE_CONFIRM } from '../types';
 
-const ConfirmState = props => 
-{
+const ConfirmProvider = (props) => {
   const [state, Dispatch] = useReducer(ConfirmReducer, null);
 
   // Set Confirm
-  const SetConfirm = (title, message, Action) => Dispatch({ type: SET_CONFIRM, payload: { title, message, Action } });
+  const SetConfirm = (title, message, Action) =>
+    Dispatch({ type: SET_CONFIRM, payload: { title, message, Action } });
 
   // Remove Confirm
   const RemoveConfirm = () => Dispatch({ type: REMOVE_CONFIRM });
 
-  const providerValue =
-  {    
+  const providerValue = {
     confirm: state,
     SetConfirm,
-    RemoveConfirm
+    RemoveConfirm,
   };
   return (
     <ConfirmContext.Provider value={providerValue}>
@@ -26,4 +25,4 @@ const ConfirmState = props =>
   );
 };
 
-export default ConfirmState;
+export default ConfirmProvider;

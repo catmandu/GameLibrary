@@ -7,9 +7,7 @@ import useRefreshToken from '../../../hooks/useRefreshToken';
 const GenreItem = ({ genre }) => {
   const { SetCurrentGenre } = useContext(GenreContext);
   const { name } = genre;
-
   useRefreshToken();
-
   return (
     <Link
       to='/genre'

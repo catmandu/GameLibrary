@@ -2,24 +2,31 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PlatformContext from '../../../context/main/platform/platformContext';
 import PropTypes from 'prop-types';
+import useRefreshToken from '../../../hooks/useRefreshToken';
 
-const PlatformItem = ({ platform }) => 
-{
+const PlatformItem = ({ platform }) => {
   const { SetCurrentPlatform } = useContext(PlatformContext);
   const { name } = platform;
-  
+
+  useRefreshToken();
+
   return (
-    <Link to='/platform' style={{color:'inherit'}} onClick={() => { SetCurrentPlatform(platform); }}>
+    <Link
+      to='/platform'
+      style={{ color: 'inherit' }}
+      onClick={() => {
+        SetCurrentPlatform(platform);
+      }}
+    >
       <div className='card text-center'>
         <span className='text-label'>{name}</span>
       </div>
-    </Link>    
+    </Link>
   );
 };
 
-PlatformItem.propTypes = 
-{
-    platform: PropTypes.object.isRequired
+PlatformItem.propTypes = {
+  platform: PropTypes.object.isRequired,
 };
 
 export default PlatformItem;
